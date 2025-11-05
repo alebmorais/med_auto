@@ -1,0 +1,90 @@
+# Productivity Snippets - Common Productivity Text and Templates
+# Category: Productivity
+
+matches:
+  # Meeting Templates
+  - trigger: ":meeting"
+    replace: |
+      Meeting Notes - {{mydate}}
+      
+      Attendees:
+      - 
+      
+      Agenda:
+      - 
+      
+      Discussion:
+      - 
+      
+      Action Items:
+      - [ ] 
+      
+      Next Meeting: 
+    vars:
+      - name: mydate
+        type: date
+        params:
+          format: "%Y-%m-%d"
+  
+  # Task Template
+  - trigger: ":task"
+    replace: |
+      - [ ] Task: 
+        - Priority: 
+        - Due Date: 
+        - Notes: 
+  
+  # Email Templates
+  - trigger: ":followup"
+    replace: |
+      Hi,
+      
+      I wanted to follow up on our previous conversation regarding {{topic}}.
+      
+      Could you please provide an update at your earliest convenience?
+      
+      Thank you,
+    vars:
+      - name: topic
+        type: clipboard
+  
+  # Common Phrases
+  - trigger: ":asap"
+    replace: "as soon as possible"
+  
+  - trigger: ":fyi"
+    replace: "For your information"
+  
+  - trigger: ":tbd"
+    replace: "To be determined"
+  
+  - trigger: ":wip"
+    replace: "Work in progress"
+  
+  - trigger: ":eta"
+    replace: "Estimated time of arrival"
+  
+  # Weekly Report Template
+  - trigger: ":weeklyreport"
+    replace: |
+      Weekly Report - Week of {{mydate}}
+      
+      Accomplishments:
+      - 
+      
+      In Progress:
+      - 
+      
+      Planned for Next Week:
+      - 
+      
+      Challenges:
+      - 
+      
+      Notes:
+      - 
+    vars:
+      - name: mydate
+        type: date
+        params:
+          format: "%Y-%m-%d"

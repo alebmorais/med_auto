@@ -1,0 +1,44 @@
+# Syncthing Ignore Patterns
+# This file tells Syncthing which files/folders NOT to sync
+
+# Version control
+.git
+.gitignore
+.gitattributes
+
+# Editor and IDE files
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# Syncthing internal
+.stfolder
+.stversions
+.stignore
+
+# System files
+desktop.ini
+.Spotlight-V100
+.Trashes
+
+# Build artifacts (if any)
+node_modules/
+*.pyc
+__pycache__/
+
+# Logs
+*.log
+
+# Personal/sensitive (uncomment if needed)
+# personal-config.yml
+# secrets.yml

@@ -1,0 +1,113 @@
+# Medical Procedures and Protocols
+# Category: Medical - Procedures
+
+matches:
+  # Common Procedures
+  - trigger: ":cpr"
+    replace: "Cardiopulmonary Resuscitation"
+  
+  - trigger: ":ecg"
+    replace: "Electrocardiogram"
+  
+  - trigger: ":ekg"
+    replace: "Electrocardiogram"
+  
+  - trigger: ":ct"
+    replace: "Computed Tomography"
+  
+  - trigger: ":mri"
+    replace: "Magnetic Resonance Imaging"
+  
+  - trigger: ":xray"
+    replace: "X-Ray"
+  
+  - trigger: ":us"
+    replace: "Ultrasound"
+  
+  - trigger: ":labs"
+    replace: "Laboratory Tests"
+  
+  # Emergency Protocols
+  - trigger: ":code"
+    replace: "Code Blue - Cardiac Arrest"
+  
+  - trigger: ":trauma"
+    replace: |
+      TRAUMA ASSESSMENT:
+      - Airway: 
+      - Breathing: 
+      - Circulation: 
+      - Disability: 
+      - Exposure: 
+  
+  - trigger: ":abcde"
+    replace: |
+      Primary Survey (ABCDE):
+      A - Airway: 
+      B - Breathing: 
+      C - Circulation: 
+      D - Disability (Neuro): 
+      E - Exposure/Environment: 
+  
+  # Physical Exam Templates
+  - trigger: ":pe"
+    replace: |
+      Physical Examination:
+      - General: 
+      - HEENT: 
+      - Cardiovascular: 
+      - Respiratory: 
+      - Abdomen: 
+      - Extremities: 
+      - Neurological: 
+      - Skin: 
+  
+  - trigger: ":ros"
+    replace: |
+      Review of Systems:
+      - Constitutional: 
+      - Eyes: 
+      - ENT: 
+      - Cardiovascular: 
+      - Respiratory: 
+      - GI: 
+      - GU: 
+      - Musculoskeletal: 
+      - Skin: 
+      - Neurological: 
+      - Psychiatric: 
+      - Endocrine: 
+      - Heme/Lymph: 
+      - Allergic/Immunologic: 
+  
+  # Common Lab Orders
+  - trigger: ":cbc"
+    replace: "Complete Blood Count"
+  
+  - trigger: ":cmp"
+    replace: "Comprehensive Metabolic Panel"
+  
+  - trigger: ":bmp"
+    replace: "Basic Metabolic Panel"
+  
+  - trigger: ":lft"
+    replace: "Liver Function Tests"
+  
+  - trigger: ":ua"
+    replace: "Urinalysis"
+  
+  - trigger: ":tsh"
+    replace: "Thyroid Stimulating Hormone"
+  
+  # Medical Orders Template
+  - trigger: ":orders"
+    replace: |
+      ORDERS:
+      1. Labs: 
+      2. Imaging: 
+      3. Medications: 
+      4. Fluids: 
+      5. Monitoring: 
+      6. Consults: 
+      7. Diet: 
+      8. Activity: 

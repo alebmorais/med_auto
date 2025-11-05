@@ -1,0 +1,72 @@
+# Medical Snippets - Common Medical Terms and Abbreviations
+# Category: Medical
+
+matches:
+  # Common Medical Abbreviations
+  - trigger: ":bp"
+    replace: "Blood Pressure"
+  
+  - trigger: ":hr"
+    replace: "Heart Rate"
+  
+  - trigger: ":temp"
+    replace: "Temperature"
+  
+  - trigger: ":dx"
+    replace: "Diagnosis"
+  
+  - trigger: ":tx"
+    replace: "Treatment"
+  
+  - trigger: ":rx"
+    replace: "Prescription"
+  
+  - trigger: ":hx"
+    replace: "History"
+  
+  - trigger: ":sx"
+    replace: "Symptoms"
+  
+  # Common Medical Phrases
+  - trigger: ":sob"
+    replace: "Shortness of breath"
+  
+  - trigger: ":nkda"
+    replace: "No known drug allergies"
+  
+  - trigger: ":wnl"
+    replace: "Within normal limits"
+  
+  - trigger: ":bpm"
+    replace: "beats per minute"
+  
+  - trigger: ":prn"
+    replace: "as needed"
+  
+  - trigger: ":bid"
+    replace: "twice daily"
+  
+  - trigger: ":tid"
+    replace: "three times daily"
+  
+  - trigger: ":qid"
+    replace: "four times daily"
+  
+  # Medical Templates
+  - trigger: ":vitals"
+    replace: |
+      Vital Signs:
+      - BP: 
+      - HR: 
+      - Temp: 
+      - RR: 
+      - SpO2: 
+  
+  - trigger: ":assessment"
+    replace: |
+      Assessment:
+      - Chief Complaint: 
+      - History: 
+      - Physical Exam: 
+      - Diagnosis: 
+      - Plan: 

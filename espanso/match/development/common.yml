@@ -1,0 +1,103 @@
+# Development Snippets - Common Programming and Development Text
+# Category: Development
+
+matches:
+  # Git Commands
+  - trigger: ":gitcommit"
+    replace: "git add . && git commit -m \"{{message}}\" && git push"
+    vars:
+      - name: message
+        type: clipboard
+  
+  - trigger: ":gitinit"
+    replace: |
+      git init
+      git add .
+      git commit -m "Initial commit"
+  
+  # Common Code Comments
+  - trigger: ":todo"
+    replace: "// TODO: "
+  
+  - trigger: ":fixme"
+    replace: "// FIXME: "
+  
+  - trigger: ":note"
+    replace: "// NOTE: "
+  
+  - trigger: ":hack"
+    replace: "// HACK: "
+  
+  # Common Programming Patterns
+  - trigger: ":tryexcept"
+    replace: |
+      try:
+          {{code}}
+      except Exception as e:
+          print(f"Error: {e}")
+    vars:
+      - name: code
+        type: clipboard
+  
+  - trigger: ":ifmain"
+    replace: |
+      if __name__ == "__main__":
+          main()
+  
+  - trigger: ":shebang"
+    replace: "#!/usr/bin/env python3"
+  
+  # Documentation Templates
+  - trigger: ":docstring"
+    replace: |
+      """
+      Brief description.
+      
+      Args:
+          param1: Description of param1
+          param2: Description of param2
+      
+      Returns:
+          Description of return value
+      
+      Raises:
+          ExceptionType: Description of when this exception is raised
+      """
+  
+  - trigger: ":readme"
+    replace: |
+      # Project Name
+      
+      ## Description
+      Brief description of the project
+      
+      ## Installation
+      ```bash
+      # Installation commands
+      ```
+      
+      ## Usage
+      ```bash
+      # Usage examples
+      ```
+      
+      ## Contributing
+      Contributions are welcome!
+      
+      ## License
+      MIT License
+  
+  # Debugging
+  - trigger: ":debug"
+    replace: "print(f\"DEBUG: {{{variable}}} = {{{variable}}}\")"
+    vars:
+      - name: variable
+        type: clipboard
+  
+  - trigger: ":log"
+    replace: "console.log('{{message}}:', {{variable}});"
+    vars:
+      - name: message
+        type: clipboard
+      - name: variable
+        type: clipboard
