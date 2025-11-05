@@ -132,6 +132,50 @@ Examples:
 - Full control over your data
 - Encrypted sync with Syncthing (optional)
 
+### Security Best Practices
+
+**Important:** When deploying this system, especially on Raspberry Pi or shared networks, follow these security guidelines:
+
+#### Network Binding
+- **Default to localhost:** Services should bind to `127.0.0.1` (localhost) by default for security
+- **Network exposure:** Only change to `0.0.0.0` if you need network access, and ensure:
+  - Strong passwords are set immediately
+  - Firewall rules restrict access to trusted devices/networks
+  - Consider using a reverse proxy with TLS for remote access
+
+#### API Key Management
+- **Never hardcode API keys** in scripts or cron jobs
+- Store API keys in secure files with restricted permissions (chmod 600)
+- Use environment variables or secure credential files
+- Example secure storage:
+  ```bash
+  mkdir -p ~/.config/med_auto
+  chmod 700 ~/.config/med_auto
+  echo "your-api-key" > ~/.config/med_auto/syncthing_api
+  chmod 600 ~/.config/med_auto/syncthing_api
+  ```
+
+#### Network Access
+- **Local-only by default:** Access web UIs via `http://localhost:port` when possible
+- **Remote access:** For secure remote access:
+  - Use SSH tunneling: `ssh -L 8384:localhost:8384 user@raspberry-pi`
+  - Set up a reverse proxy (nginx/Caddy) with TLS certificates
+  - Use a VPN for secure network access
+  - Configure firewall rules to restrict access
+
+#### Verification Commands
+Check that services are bound correctly:
+```bash
+# Linux/macOS - verify listening ports and addresses
+ss -tuln | grep :8384
+netstat -tuln | grep :8384
+
+# Should show 127.0.0.1:8384 for localhost-only
+# Shows 0.0.0.0:8384 if exposed to network (review if intentional)
+```
+
+For detailed security configurations, refer to the setup guides in `docs/`.
+
 ## 🤝 Contributing
 
 Feel free to add your own snippet categories or improve existing ones!

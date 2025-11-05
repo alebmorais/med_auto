@@ -244,15 +244,41 @@ To sync only during specific hours:
 **Option 2: Schedule with System Tools**
 
 On Linux/Mac (using cron):
-```bash
-# Pause Syncthing at 11 PM
-0 23 * * * curl -X POST -H "X-API-Key: YOUR-API-KEY" http://localhost:8384/rest/system/pause
 
-# Resume at 7 AM
-0 7 * * * curl -X POST -H "X-API-Key: YOUR-API-KEY" http://localhost:8384/rest/system/resume
+First, create a secure script to store your API key:
+
+```bash
+# Create secure credentials directory
+mkdir -p ~/.config/med_auto
+chmod 700 ~/.config/med_auto
+
+# Store your API key (get it from Actions → Settings → GUI → API Key)
+echo "YOUR-API-KEY-HERE" > ~/.config/med_auto/syncthing_api
+chmod 600 ~/.config/med_auto/syncthing_api
 ```
 
-Get API key from **Actions** → **Settings** → **GUI** → **API Key**
+Create a script for cron:
+
+```bash
+# Create the script
+cat > ~/.config/med_auto/syncthing-control.sh << 'EOF'
+#!/bin/bash
+API_KEY=$(cat ~/.config/med_auto/syncthing_api)
+curl -X POST -H "X-API-Key: $API_KEY" http://localhost:8384/rest/system/$1
+EOF
+
+chmod +x ~/.config/med_auto/syncthing-control.sh
+```
+
+Then add to crontab:
+
+```bash
+# Pause Syncthing at 11 PM
+0 23 * * * ~/.config/med_auto/syncthing-control.sh pause
+
+# Resume at 7 AM
+0 7 * * * ~/.config/med_auto/syncthing-control.sh resume
+```
 
 ## Monitoring and Troubleshooting
 
@@ -266,7 +292,9 @@ Get API key from **Actions** → **Settings** → **GUI** → **API Key**
 #### Via Command Line
 ```bash
 # On Linux/Mac
-curl -H "X-API-Key: YOUR-API-KEY" http://localhost:8384/rest/system/status | jq
+# First ensure your API key is stored securely (see scheduling section above)
+API_KEY=$(cat ~/.config/med_auto/syncthing_api)
+curl -H "X-API-Key: $API_KEY" http://localhost:8384/rest/system/status | jq
 ```
 
 ### Common Issues

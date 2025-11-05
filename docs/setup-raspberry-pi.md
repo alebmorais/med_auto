@@ -74,7 +74,12 @@ Find the line:
 <address>127.0.0.1:8384</address>
 ```
 
-Change to:
+**Security Note:** For local-only access, keep the default `127.0.0.1`. To access from other devices on your network, change to `0.0.0.0:8384`, but ensure you:
+- Set a strong admin password immediately
+- Configure your firewall to restrict access to trusted networks only
+- Consider using a reverse proxy with TLS for remote access
+
+If you need network access, change to:
 ```xml
 <address>0.0.0.0:8384</address>
 ```
@@ -90,8 +95,9 @@ systemctl --user restart syncthing.service
    ```bash
    hostname -I
    ```
-2. Open browser: `http://[RPI-IP-ADDRESS]:8384`
-3. Set up admin password when prompted
+2. Open browser: `http://[RPI-IP-ADDRESS]:8384` (only if you changed address to 0.0.0.0)
+   - For localhost-only setup, use `http://localhost:8384` from the Pi itself
+3. **Important:** Set up a strong admin password immediately when prompted
 
 ### Configure Syncthing Folder
 
@@ -129,11 +135,13 @@ curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bas
 mkdir -p ~/.config/filebrowser
 
 # Create configuration file
+# Security Note: Using 127.0.0.1 (localhost-only) by default for safety
+# Change to 0.0.0.0 only if you need network access and have proper firewall rules
 cat > ~/.config/filebrowser/filebrowser.json << 'EOF'
 {
   "port": 8080,
   "baseURL": "",
-  "address": "0.0.0.0",
+  "address": "127.0.0.1",
   "log": "stdout",
   "database": "/home/pi/.config/filebrowser/filebrowser.db",
   "root": "/home/pi/med_auto/espanso"
@@ -184,7 +192,7 @@ sudo systemctl status filebrowser
 
 ### Access File Browser
 
-1. Open browser: `http://[RPI-IP-ADDRESS]:8080`
+1. Open browser: `http://localhost:8080` (from the Pi) or `http://[RPI-IP-ADDRESS]:8080` (if address is set to 0.0.0.0)
 2. Default credentials:
    - Username: `admin`
    - Password: `admin`
@@ -271,16 +279,33 @@ sudo reboot
 
 ### Verify Syncthing
 
-1. Access Syncthing UI: `http://[RPI-IP]:8384`
+1. Access Syncthing UI:
+   - If using localhost binding (default): SSH into Pi and use `lynx http://localhost:8384` or create SSH tunnel
+   - If using 0.0.0.0 binding: `http://[RPI-IP]:8384`
 2. Check that devices are connected
 3. Verify folder is syncing
 
 ### Verify File Browser
 
-1. Access File Browser: `http://[RPI-IP]:8080`
+1. Access File Browser:
+   - If using localhost binding (default): Create SSH tunnel or access from Pi directly
+   - If using 0.0.0.0 binding: `http://[RPI-IP]:8080`
 2. Navigate to the espanso folder
 3. Try creating a test file
 4. Verify it syncs to other devices
+
+### SSH Tunnel Example (Recommended for Remote Access)
+
+For secure remote access without exposing services:
+
+```bash
+# From your local machine, create SSH tunnel
+ssh -L 8384:localhost:8384 -L 8080:localhost:8080 pi@[RPI-IP]
+
+# Then access via localhost:
+# Syncthing: http://localhost:8384
+# File Browser: http://localhost:8080
+```
 
 ### Test Snippet Creation via File Browser
 
