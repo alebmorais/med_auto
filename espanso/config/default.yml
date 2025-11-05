@@ -1,0 +1,57 @@
+# Espanso Configuration File
+# This is the main configuration file for the Espanso snippet system
+
+# Clipboard settings
+clipboard_threshold: 100
+
+# Toggle key (ALT twice by default)
+toggle_key: ALT
+
+# Paste shortcut (CTRL+V on Windows/Linux, CMD+V on macOS)
+paste_shortcut: CTRL+V
+
+# Backend configuration
+# Options: Inject, Clipboard
+backend: Inject
+
+# Search trigger (triggered when you type :)
+search_trigger: ":"
+search_shortcut: ALT+SPACE
+
+# Enable or disable Espanso
+enable: true
+
+# Auto-restart on configuration change
+auto_restart: true
+
+# Filter configuration
+filter_title: ""
+filter_class: ""
+filter_exec: ""
+
+# Undo backspace limit
+undo_backspace: true
+
+# Preserve clipboard after paste
+preserve_clipboard: true
+
+# Pre-paste delay (milliseconds)
+pre_paste_delay: 100
+
+# Paste delay (milliseconds) 
+paste_delay: 10
+
+# Restore clipboard delay (milliseconds)
+restore_clipboard_delay: 300
+
+# Word separators
+word_separators: [" ", ",", ".", "?", "!", "\r", "\n", "\t"]
+
+# Backspace limit
+backspace_limit: 3
+
+# Show notifications
+show_notifications: true
+
+# Show icon
+show_icon: true

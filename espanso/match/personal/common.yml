@@ -1,0 +1,63 @@
+# Personal Snippets - Personal Information and Common Phrases
+# Category: Personal
+
+matches:
+  # Contact Information Templates
+  - trigger: ":email"
+    replace: "your.email@example.com"
+  
+  - trigger: ":phone"
+    replace: "+1 (555) 123-4567"
+  
+  - trigger: ":addr"
+    replace: |
+      123 Main Street
+      City, State 12345
+  
+  # Common Greetings
+  - trigger: ":hi"
+    replace: "Hello,"
+  
+  - trigger: ":thanks"
+    replace: "Thank you for your time and consideration."
+  
+  - trigger: ":regards"
+    replace: "Best regards,"
+  
+  - trigger: ":sincerely"
+    replace: "Sincerely,"
+  
+  # Date and Time
+  - trigger: ":date"
+    replace: "{{mydate}}"
+    vars:
+      - name: mydate
+        type: date
+        params:
+          format: "%Y-%m-%d"
+  
+  - trigger: ":time"
+    replace: "{{mytime}}"
+    vars:
+      - name: mytime
+        type: date
+        params:
+          format: "%H:%M"
+  
+  - trigger: ":datetime"
+    replace: "{{mydatetime}}"
+    vars:
+      - name: mydatetime
+        type: date
+        params:
+          format: "%Y-%m-%d %H:%M:%S"
+  
+  # Signature Template
+  - trigger: ":sig"
+    replace: |
+      Best regards,
+      
+      Your Name
+      Your Title
+      your.email@example.com
+      +1 (555) 123-4567
