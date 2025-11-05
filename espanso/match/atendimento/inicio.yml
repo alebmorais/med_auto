@@ -1,0 +1,20 @@
+# Atendimento Gerais - Inicio
+# Frases de atendimento em português
+# Total: 7 snippets
+
+matches:
+- trigger: :cumprimento-manha
+  replace: Bom dia, tudo bem? Qual seria a solicitação, por gentileza?
+- trigger: :cumprimento-tarde
+  replace: Boa tarde, tudo bem? Qual seria a solicitação, por gentileza?
+- trigger: :cumprimento-noite
+  replace: Boa noite, tudo bem? Qual seria a solicitação, por gentileza?
+- trigger: :aguardar-momento
+  replace: Olá, tudo bem? Um momento, por favor. Estou finalizando a discussão de
+    outro caso.
+- trigger: :qual-duvida
+  replace: Qual seria a dúvida, por gentileza?
+- trigger: :como-ajudar
+  replace: Em que posso ajudar, por gentileza?
+- trigger: :pode-prosseguir
+  replace: Pode prosseguir.

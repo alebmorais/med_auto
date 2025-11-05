@@ -1,0 +1,13 @@
+# Atendimento Gerais - Finalizacao
+# Frases de atendimento em português
+# Total: 3 snippets
+
+matches:
+- trigger: :troca-plantao
+  replace: Desculpe, mas está havendo troca de horário e outro colega assumirá o caso
+    e sua discussão terá continuidade, ok? Obrigada
+- trigger: :despedida
+  replace: Disponha! Bom plantão!
+- trigger: :encerrar-inatividade
+  replace: Devido a inatividade do chat, o atendimento será encerrado. Caso precise,
+    entre em contato novamente.

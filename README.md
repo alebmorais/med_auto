@@ -34,8 +34,13 @@ med_auto/
 │   ├── config/
 │   │   └── default.yml          # Main Espanso configuration
 │   └── match/                   # Snippet definitions
+│       ├── atendimento/         # Portuguese customer service phrases
+│       │   ├── inicio.yml
+│       │   ├── finalizacao.yml
+│       │   └── README.md
 │       ├── medical/             # Medical terminology snippets
-│       │   └── common.yml
+│       │   ├── common.yml
+│       │   └── procedures.yml
 │       ├── personal/            # Personal information snippets
 │       │   └── common.yml
 │       ├── productivity/        # Productivity templates
@@ -43,10 +48,12 @@ med_auto/
 │       └── development/         # Development/coding snippets
 │           └── common.yml
 ├── docs/
+│   ├── quick-start.md           # Quick start guide
 │   ├── setup-windows.md         # Windows installation guide
 │   ├── setup-macos.md           # macOS installation guide
 │   ├── setup-raspberry-pi.md   # Raspberry Pi setup guide
-│   └── syncthing-setup.md      # Syncthing configuration guide
+│   ├── syncthing-setup.md      # Syncthing configuration guide
+│   └── customization-guide.md  # Snippet customization
 └── README.md
 ```
 
@@ -69,6 +76,12 @@ med_auto/
 For detailed installation instructions, see the platform-specific guides in the `docs/` folder.
 
 ## 📝 Snippet Categories
+
+### Atendimento (`match/atendimento/`)
+- Portuguese customer service phrases
+- Opening greetings (morning, afternoon, evening)
+- Closing messages and farewells
+- Standard customer interaction phrases
 
 ### Medical (`match/medical/`)
 - Common medical abbreviations (BP, HR, Dx, Tx, etc.)
@@ -100,6 +113,8 @@ Snippets are triggered by typing the trigger keyword. All triggers start with `:
 Examples:
 - `:bp` → "Blood Pressure"
 - `:date` → "2025-11-05"
+- `:cumprimento-manha` → "Bom dia, tudo bem? Qual seria a solicitação, por gentileza?"
+- `:despedida` → "Disponha! Bom plantão!"
 - `:meeting` → Full meeting notes template
 - `:gitcommit` → Git commit command
 
