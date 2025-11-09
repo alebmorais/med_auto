@@ -23,7 +23,7 @@ Syncthing keeps folders in sync automatically when:
 ## Getting Your Device ID
 
 ### Windows
-1. Open SyncTrayzor or navigate to `http://localhost:8384`
+1. Open a browser and navigate to `http://localhost:8384`
 2. Click **Actions** → **Show ID**
 3. Copy the Device ID
 
@@ -351,8 +351,12 @@ curl -H "X-API-Key: $API_KEY" http://localhost:8384/rest/system/status | jq
 
 ### View Logs
 
-#### Windows (SyncTrayzor)
-- Click **SyncTrayzor** → **Show Syncthing Log**
+#### Windows (Native)
+```powershell
+# If you started Syncthing manually, logs are in the console.
+# If you used Task Scheduler or NSSM, check:
+Get-Content $env:LOCALAPPDATA\Syncthing\syncthing.log -Tail 100
+```
 
 #### macOS/Linux
 ```bash

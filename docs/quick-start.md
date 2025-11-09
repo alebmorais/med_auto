@@ -12,7 +12,8 @@ Choose your platform:
 ```powershell
 # Download and install:
 # 1. Espanso: https://espanso.org/install/win/
-# 2. SyncTrayzor: https://github.com/canton7/SyncTrayzor/releases
+# 2. Syncthing (Windows): https://syncthing.net/downloads/
+# Optional: schedule Syncthing at login using Task Scheduler
 ```
 
 #### macOS

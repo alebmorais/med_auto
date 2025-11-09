@@ -35,14 +35,53 @@ You should see the version number displayed.
 3. Run the installer
 4. Syncthing will start automatically and open the web interface
 
-### Configure Syncthing as a Service (Optional)
+### Run Syncthing at Startup (Recommended)
 
-For Syncthing to run automatically on startup:
+Keep Syncthing running automatically after login while following secure defaults.
 
-1. Download [SyncTrayzor](https://github.com/canton7/SyncTrayzor/releases) (recommended)
-2. Install SyncTrayzor
-3. Configure it to start with Windows
-4. SyncTrayzor provides a system tray icon and manages Syncthing
+#### Option A: Task Scheduler (no extra tools)
+
+1. Open Task Scheduler → Create Task
+2. General tab:
+   - Name: "Syncthing"
+   - Check "Run whether user is logged on or not"
+   - Optional: "Run with highest privileges"
+3. Triggers tab: New → "At log on" → Any user
+4. Actions tab: New → "Start a program"
+   - Program/script: `C:\\Users\\YourName\\AppData\\Local\\Syncthing\\syncthing.exe`
+   - Add arguments (optional): `-no-console -logfile %LOCALAPPDATA%\Syncthing\syncthing.log`
+   - Start in: `C:\\Users\\YourName\\AppData\\Local\\Syncthing`
+5. Conditions/Settings: adjust to your preference → OK → provide credentials
+
+Logs (if configured): `%LOCALAPPDATA%\Syncthing\syncthing.log`
+
+#### Option B: Windows Service via NSSM (advanced)
+
+1. Download NSSM: https://nssm.cc/download
+2. Install service (in an elevated PowerShell):
+
+```powershell
+# Adjust paths as needed
+$nssm = "C:\\Tools\\nssm.exe"
+$exe  = "$env:LOCALAPPDATA\\Syncthing\\syncthing.exe"
+& $nssm install Syncthing $exe -no-console -logfile $env:LOCALAPPDATA\Syncthing\syncthing.log
+& $nssm set Syncthing AppDirectory $env:LOCALAPPDATA\Syncthing
+& $nssm start Syncthing
+```
+
+Service management: `services.msc` (look for "Syncthing").
+
+### Secure the Syncthing GUI
+
+After first start, open `http://localhost:8384` and configure:
+
+1. Actions → Settings → GUI
+2. Set GUI Listen Address: `127.0.0.1:8384` (default/local-only)
+3. Set GUI Authentication: username + strong password
+4. (Optional) Enable HTTPS for the GUI (self‑signed cert)
+5. Save → restart Syncthing if prompted
+
+Note: Keep the GUI bound to localhost. For remote access, use an SSH tunnel or a reverse proxy with TLS.
 
 ## Step 3: Clone or Download This Repository
 
