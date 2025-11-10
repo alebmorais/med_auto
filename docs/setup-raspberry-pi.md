@@ -60,44 +60,110 @@ systemctl --user enable syncthing.service
 systemctl --user start syncthing.service
 ```
 
-### Configure Syncthing for Remote Access
+### Locate Syncthing Configuration
 
-By default, Syncthing only listens on localhost. To access it remotely:
+First, find where Syncthing stores its config (paths vary by installation method):
 
 ```bash
-# Edit Syncthing configuration
-nano ~/.config/syncthing/config.xml
+syncthing -paths
 ```
 
-Find the line:
-```xml
-<address>127.0.0.1:8384</address>
-```
+Look for "Configuration file". Common locations:
+- `$HOME/.config/syncthing/config.xml` (older installs)
+- `$HOME/.local/state/syncthing/config.xml` (newer XDG-compliant installs)
 
-**Security Note:** For local-only access, keep the default `127.0.0.1`. To access from other devices on your network, change to `0.0.0.0:8384`, but ensure you:
-- Set a strong admin password immediately
-- Configure your firewall to restrict access to trusted networks only
-- Consider using a reverse proxy with TLS for remote access
+If the directory doesn't exist, generate it:
 
-If you need network access, change to:
-```xml
-<address>0.0.0.0:8384</address>
-```
-
-Restart Syncthing:
 ```bash
-systemctl --user restart syncthing.service
+# Option 1: Generate manually
+syncthing -generate="$HOME/.local/state/syncthing"
+
+# Option 2: Start once then stop
+systemctl --user start syncthing
+sleep 5
+systemctl --user stop syncthing
 ```
+
+### Configure Syncthing for Secure Access (Recommended: SSH Tunnel)
+
+**Best practice:** Keep Syncthing bound to localhost (127.0.0.1) and access remotely via SSH tunnel.
+
+1. **Stop Syncthing before editing**:
+   ```bash
+   systemctl --user stop syncthing
+   ```
+
+2. **Back up config**:
+   ```bash
+   # Use the path from syncthing -paths
+   cp ~/.local/state/syncthing/config.xml ~/.local/state/syncthing/config.xml.bak
+   ```
+
+3. **Edit config** (replace path if yours differs):
+   ```bash
+   nano ~/.local/state/syncthing/config.xml
+   ```
+
+4. **Verify or add the GUI section** (keep localhost-only):
+   ```xml
+   <gui enabled="true" tls="false">
+     <address>127.0.0.1:8384</address>
+     <apikey></apikey>
+     <theme>default</theme>
+   </gui>
+   ```
+
+5. **Restart Syncthing**:
+   ```bash
+   systemctl --user start syncthing
+   ```
+
+6. **Verify bind address**:
+   ```bash
+   ss -tuln | grep :8384
+   # Should show: 127.0.0.1:8384 (localhost-only, secure)
+   ```
+
+### Access Syncthing Remotely via SSH Tunnel
+
+From your laptop/desktop (replace `[RPI-IP]` and `pi` with your Pi's IP and username):
+
+```bash
+ssh -L 8384:localhost:8384 pi@[RPI-IP]
+```
+
+Then open on your local machine:
+- http://localhost:8384
+
+**Alternative (not recommended):** If you absolutely need LAN access:
+- Change `<address>` to `0.0.0.0:8384`
+- Set a strong GUI username/password immediately in the web UI
+- Configure firewall: `sudo ufw allow from 192.168.1.0/24 to any port 8384 proto tcp`
 
 ### Access Syncthing Web Interface
 
-1. Find your Raspberry Pi's IP address:
-   ```bash
-   hostname -I
-   ```
-2. Open browser: `http://[RPI-IP-ADDRESS]:8384` (only if you changed address to 0.0.0.0)
-   - For localhost-only setup, use `http://localhost:8384` from the Pi itself
-3. **Important:** Set up a strong admin password immediately when prompted
+**From the Pi** (local):
+```bash
+# Option 1: Use a text browser on the Pi
+lynx http://localhost:8384
+
+# Option 2: If Pi has a desktop environment
+xdg-open http://localhost:8384
+```
+
+**From another computer** (via SSH tunnel - recommended):
+```bash
+# On your laptop/desktop:
+ssh -L 8384:localhost:8384 pi@[RPI-IP]
+
+# Then open in your browser:
+# http://localhost:8384
+```
+
+**Important:** Set a strong GUI username/password:
+- In the web UI: Actions → Settings → GUI
+- Set Username and Password
+- Save and restart if prompted
 
 ### Configure Syncthing Folder
 
@@ -136,17 +202,44 @@ mkdir -p ~/.config/filebrowser
 
 # Create configuration file
 # Security Note: Using 127.0.0.1 (localhost-only) by default for safety
-# Change to 0.0.0.0 only if you need network access and have proper firewall rules
+# Adjust paths if your username isn't 'pi' (use $HOME for current user)
 cat > ~/.config/filebrowser/filebrowser.json << 'EOF'
 {
   "port": 8080,
   "baseURL": "",
   "address": "127.0.0.1",
   "log": "stdout",
-  "database": "/home/pi/.config/filebrowser/filebrowser.db",
-  "root": "/home/pi/med_auto/espanso"
+  "database": "$HOME/.config/filebrowser/filebrowser.db",
+  "root": "$HOME/med_auto/espanso"
 }
 EOF
+
+# Replace $HOME with actual path
+sed -i "s|\$HOME|$HOME|g" ~/.config/filebrowser/filebrowser.json
+```
+
+### Secure File Browser Admin Account
+
+By default, File Browser might create an admin account without a password. Lock it down:
+
+```bash
+# Stop the service if it's running
+sudo systemctl stop filebrowser 2>/dev/null || true
+
+# Set admin password (change 'YourStrongPass123!' to your own)
+export FILEBROWSER_DB="$HOME/.config/filebrowser/filebrowser.db"
+filebrowser -d "$FILEBROWSER_DB" users update admin \
+  --password 'YourStrongPass123!' \
+  --perm.admin \
+  --scope "$HOME/med_auto/espanso"
+
+# If admin doesn't exist yet, create it:
+# filebrowser -d "$FILEBROWSER_DB" users add admin 'YourStrongPass123!' \
+#   --perm.admin \
+#   --scope "$HOME/med_auto/espanso"
+
+# Verify
+filebrowser -d "$FILEBROWSER_DB" users list
 ```
 
 ### Create Systemd Service for File Browser

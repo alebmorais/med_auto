@@ -118,12 +118,31 @@ Examples:
 - `:meeting` → Full meeting notes template
 - `:gitcommit` → Git commit command
 
+### Searchable Menus
+
+Create dropdown menus for related snippets:
+- `:dia` → Choose from morning/afternoon/evening greetings
+- `:atend` → Pick customer service responses
+- `:med` → Select medical abbreviations
+
+**Learn more:** [Espanso Searchable Menus Guide](docs/espanso-searchable-menus.md)
+
 ## 📖 Documentation
 
-- [Windows Setup Guide](docs/setup-windows.md)
-- [macOS Setup Guide](docs/setup-macos.md)
-- [Raspberry Pi Setup Guide](docs/setup-raspberry-pi.md)
-- [Syncthing Configuration](docs/syncthing-setup.md)
+### Setup Guides
+- [Quick Start](docs/quick-start.md) - Get running in 5 minutes
+- [Windows Setup Guide](docs/setup-windows.md) - Detailed Windows installation
+- [macOS Setup Guide](docs/setup-macos.md) - Detailed macOS installation
+- [Raspberry Pi Setup Guide](docs/setup-raspberry-pi.md) - Central server setup
+
+### Customization & Features
+- [Customization Guide](docs/customization-guide.md) - Create custom snippets
+- [Searchable Menus](docs/espanso-searchable-menus.md) - Create dropdown choice menus
+- [Portuguese Snippets Reference](docs/portuguese-snippets-reference.md) - Portuguese phrases
+
+### Configuration
+- [Syncthing Configuration](docs/syncthing-setup.md) - Advanced sync configuration
+- [Syncthing Setup Guide](docs/syncthing-setup.md) - Remote access & security
 
 ## 🔒 Security & Privacy
 

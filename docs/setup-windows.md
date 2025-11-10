@@ -100,23 +100,51 @@ git clone https://github.com/alebmorais/med_auto.git
 
 ## Step 4: Configure Espanso
 
+### Verify Espanso Paths
+
+First, check where Espanso stores its configuration:
+
+```powershell
+espanso path
+```
+
+You'll see output like:
+```
+Config: C:\Users\YourName\AppData\Roaming\espanso
+Packages: C:\Users\YourName\AppData\Roaming\espanso\match\packages
+Runtime: C:\Users\YourName\AppData\Local\espanso
+```
+
 ### Set Up Configuration Directory
 
-1. Open PowerShell as Administrator
+1. Open PowerShell as Administrator (Win+X → "Terminal (Admin)" or "PowerShell (Admin)")
 2. Create a symbolic link or copy the configuration:
 
-#### Option A: Symbolic Link (Recommended)
+#### Option A: Symbolic Link (Recommended for Auto-Sync)
+
 ```powershell
 # Navigate to Espanso config directory
 cd $env:APPDATA\espanso
 
-# Remove default config if it exists
-Remove-Item -Path "config" -Recurse -Force -ErrorAction SilentlyContinue
-Remove-Item -Path "match" -Recurse -Force -ErrorAction SilentlyContinue
+# Back up existing config if it exists
+if (Test-Path "config") { Move-Item "config" "config.bak.$(Get-Date -Format 'yyyy-MM-dd-HHmmss')" }
+if (Test-Path "match") { Move-Item "match" "match.bak.$(Get-Date -Format 'yyyy-MM-dd-HHmmss')" }
 
-# Create symbolic links
-New-Item -ItemType SymbolicLink -Path "config" -Target "C:\Users\YourName\Documents\med_auto\espanso\config"
-New-Item -ItemType SymbolicLink -Path "match" -Target "C:\Users\YourName\Documents\med_auto\espanso\match"
+# Create symbolic links (replace YourName with your actual username, or use full path)
+New-Item -ItemType SymbolicLink -Path "config" -Target "$env:USERPROFILE\Documents\med_auto\espanso\config"
+New-Item -ItemType SymbolicLink -Path "match" -Target "$env:USERPROFILE\Documents\med_auto\espanso\match"
+```
+
+**Example with actual path** (if your username is `alemo`):
+```powershell
+New-Item -ItemType SymbolicLink -Path "config" -Target "C:\Users\alemo\Documents\med_auto\espanso\config"
+New-Item -ItemType SymbolicLink -Path "match" -Target "C:\Users\alemo\Documents\med_auto\espanso\match"
+```
+
+**Verify links:**
+```powershell
+Get-ChildItem -Force
+# You should see config and match with LinkType = SymbolicLink
 ```
 
 #### Option B: Copy Files

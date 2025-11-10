@@ -148,6 +148,271 @@ Common format codes:
 
 ## Variables and Forms
 
+### Creating Searchable Categories with Choice Menus
+
+One of Espanso's most powerful features is the ability to create **searchable dropdown menus** when you type a trigger. This is perfect for organizing related snippets that you want to choose from dynamically.
+
+#### Example: Daily Greetings Menu
+
+Type `:dia` and get a searchable list of greetings:
+
+```yaml
+matches:
+  - trigger: ":dia"
+    replace: "{{greeting}}"
+    vars:
+      - name: greeting
+        type: choice
+        params:
+          values:
+            - "Bom dia! Como posso ajudar?"
+            - "Boa tarde! Em que posso ser útil?"
+            - "Boa noite! Como vai?"
+            - "Olá! Tudo bem?"
+            - "Oi! Disponha!"
+```
+
+**How it works:**
+1. Type `:dia` and press space or enter
+2. A searchable menu appears with all 5 options
+3. Use arrow keys or type to filter
+4. Press Enter to select
+
+#### Example: Medical Abbreviations with Descriptions
+
+Create a searchable medical terms menu:
+
+```yaml
+matches:
+  - trigger: ":med"
+    replace: "{{term}}"
+    vars:
+      - name: term
+        type: choice
+        params:
+          values:
+            - label: "BP - Blood Pressure"
+              value: "BP"
+            - label: "HR - Heart Rate"
+              value: "HR"
+            - label: "Dx - Diagnosis"
+              value: "Dx"
+            - label: "Tx - Treatment"
+              value: "Tx"
+            - label: "Rx - Prescription"
+              value: "Rx"
+            - label: "Hx - History"
+              value: "Hx"
+            - label: "S/Sx - Signs/Symptoms"
+              value: "S/Sx"
+```
+
+**How it works:**
+- `label`: What you see in the menu (descriptive)
+- `value`: What gets inserted when you select it
+
+#### Example: Customer Service Responses (Portuguese)
+
+```yaml
+matches:
+  - trigger: ":atend"
+    replace: "{{response}}"
+    vars:
+      - name: response
+        type: choice
+        params:
+          values:
+            - label: "Saudação Manhã"
+              value: "Bom dia! Tudo bem? Em que posso ajudar?"
+            - label: "Saudação Tarde"
+              value: "Boa tarde! Como vai? Qual seria a solicitação?"
+            - label: "Saudação Noite"
+              value: "Boa noite! Tudo certo? No que posso ser útil?"
+            - label: "Agradecimento"
+              value: "Muito obrigado pelo contato! Fico à disposição."
+            - label: "Despedida Formal"
+              value: "Disponha! Tenha um ótimo dia/tarde/noite!"
+            - label: "Despedida Informal"
+              value: "Valeu! Até mais!"
+```
+
+#### Example: Code Snippets Menu
+
+```yaml
+matches:
+  - trigger: ":code"
+    replace: "{{snippet}}"
+    vars:
+      - name: snippet
+        type: choice
+        params:
+          values:
+            - label: "Python Function"
+              value: |
+                def function_name():
+                    pass
+            - label: "JavaScript Function"
+              value: |
+                function functionName() {
+                  // code here
+                }
+            - label: "SQL Select"
+              value: "SELECT * FROM table_name WHERE condition;"
+            - label: "Git Commit"
+              value: "git add . && git commit -m 'message' && git push"
+```
+
+#### Example: Email Templates
+
+```yaml
+matches:
+  - trigger: ":emailt"
+    replace: "{{template}}"
+    vars:
+      - name: template
+        type: choice
+        params:
+          values:
+            - label: "Follow-up Email"
+              value: |
+                Hi {{name}},
+
+                Just following up on my previous email regarding {{topic}}.
+                
+                Looking forward to your response.
+                
+                Best regards
+            - label: "Meeting Request"
+              value: |
+                Hi {{name}},
+                
+                I'd like to schedule a meeting to discuss {{topic}}.
+                Would you be available on {{date}}?
+                
+                Thanks
+            - label: "Thank You"
+              value: |
+                Hi {{name}},
+                
+                Thank you for {{reason}}.
+                I really appreciate your help!
+                
+                Best
+```
+
+Note: The `{{name}}`, `{{topic}}`, etc. would need to be defined as additional form variables (see next section).
+
+#### Advanced: Combining Choices with Forms
+
+Create a menu that then prompts for additional input:
+
+```yaml
+matches:
+  - trigger: ":ticket"
+    replace: "{{template}}"
+    vars:
+      - name: type
+        type: choice
+        params:
+          values:
+            - "Bug Report"
+            - "Feature Request"
+            - "Question"
+            - "Documentation"
+      - name: title
+        type: form
+        params:
+          layout: "Title: {{value}}"
+      - name: description
+        type: form
+        params:
+          layout: "Description: {{value}}"
+          multiline: true
+      - name: template
+        type: echo
+        params:
+          echo: |
+            [{{type}}] {{title}}
+            
+            {{description}}
+            
+            ---
+            Created: {{date}}
+      - name: date
+        type: date
+        params:
+          format: "%Y-%m-%d %H:%M"
+```
+
+**How it works:**
+1. Type `:ticket`
+2. Choose ticket type from menu
+3. Enter title in form
+4. Enter description (multiline)
+5. Full ticket is inserted with current date
+
+#### Tips for Searchable Menus
+
+1. **Keep labels descriptive**: Users should understand what they're choosing
+2. **Organize by frequency**: Put most-used items at the top
+3. **Use consistent naming**: Similar categories should have similar trigger patterns
+4. **Limit menu size**: 5-15 items per menu works best; split into multiple menus if needed
+5. **Test searchability**: Make sure typing a keyword filters correctly
+
+#### Example: Organizing Multiple Menus
+
+Instead of one huge menu, create category-specific ones:
+
+```yaml
+matches:
+  # Medical vitals
+  - trigger: ":vital"
+    replace: "{{vital}}"
+    vars:
+      - name: vital
+        type: choice
+        params:
+          values:
+            - "BP: 120/80 mmHg"
+            - "HR: 72 bpm"
+            - "Temp: 36.5°C"
+            - "RR: 16/min"
+            - "SpO2: 98%"
+  
+  # Medical procedures
+  - trigger: ":proc"
+    replace: "{{procedure}}"
+    vars:
+      - name: procedure
+        type: choice
+        params:
+          values:
+            - "Physical Examination"
+            - "Blood Draw"
+            - "ECG"
+            - "X-Ray"
+            - "Ultrasound"
+  
+  # Medical diagnoses
+  - trigger: ":diag"
+    replace: "{{diagnosis}}"
+    vars:
+      - name: diagnosis
+        type: choice
+        params:
+          values:
+            - "Hypertension"
+            - "Diabetes Mellitus Type 2"
+            - "Upper Respiratory Infection"
+            - "Gastroenteritis"
+            - "Migraine"
+```
+
+This approach:
+- Keeps each menu focused and fast to search
+- Uses memorable trigger prefixes (`:vital`, `:proc`, `:diag`)
+- Makes it easier to find what you need quickly
+
 ### Clipboard Variables
 
 Use clipboard content in snippets:
