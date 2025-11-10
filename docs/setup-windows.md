@@ -76,7 +76,7 @@ Service management: `services.msc` (look for "Syncthing").
 After first start, open `http://localhost:8384` and configure:
 
 1. Actions → Settings → GUI
-2. Set GUI Listen Address: `127.0.0.1:8384` (default/local-only)
+2. Set GUI Listen Address: `x.x.x.x:838x` (default/local-only)
 3. Set GUI Authentication: username + strong password
 4. (Optional) Enable HTTPS for the GUI (self‑signed cert)
 5. Save → restart Syncthing if prompted
@@ -135,10 +135,10 @@ New-Item -ItemType SymbolicLink -Path "config" -Target "$env:USERPROFILE\Documen
 New-Item -ItemType SymbolicLink -Path "match" -Target "$env:USERPROFILE\Documents\med_auto\espanso\match"
 ```
 
-**Example with actual path** (if your username is `alemo`):
+**Example with actual path** (if your username is `x`):
 ```powershell
-New-Item -ItemType SymbolicLink -Path "config" -Target "C:\Users\alemo\Documents\med_auto\espanso\config"
-New-Item -ItemType SymbolicLink -Path "match" -Target "C:\Users\alemo\Documents\med_auto\espanso\match"
+New-Item -ItemType SymbolicLink -Path "config" -Target "C:\Users\x\Documents\med_auto\espanso\config"
+New-Item -ItemType SymbolicLink -Path "match" -Target "C:\Users\x\Documents\med_auto\espanso\match"
 ```
 
 **Verify links:**
@@ -164,7 +164,7 @@ espanso restart
 ### Access Syncthing Web Interface
 
 1. Open your web browser
-2. Navigate to `http://localhost:8384`
+2. Navigate to `http://localhost:838x`
 3. The Syncthing web interface will open
 
 ### Add Folder to Sync
